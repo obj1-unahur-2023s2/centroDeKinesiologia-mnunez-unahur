@@ -1,0 +1,241 @@
+import pacientes.*
+import aparatos.*
+import rutina.*
+
+describe "Leonardo" {
+	const rutina = new Rutina()
+	const paciente = new Paciente(
+		edad = 40,
+		nivelDolor = 10,
+		nivelFortaleza = 20,
+		rutina = rutina
+	)
+	
+	const magneto = new Magneto()
+	const bici = new Bicicleta()
+	const minitramp = new Minitramp() 
+	
+	method initialize() {
+		rutina.agregarAparato(bici)
+		rutina.agregarAparato(minitramp)
+		rutina.agregarAparato(bici)
+		rutina.agregarAparato(magneto)
+		
+	}
+
+
+
+	test "puede usar todos los aparatos" {
+		assert.that(magneto.puedeSerUsadoPor(paciente))
+		assert.that(bici.puedeSerUsadoPor(paciente))
+		assert.that(minitramp.puedeSerUsadoPor(paciente))
+	}
+	
+	test "Después de usar el magneto una vez, el nivel de dolor de Leonardo baja a 9" {
+		magneto.usar(paciente)
+		assert.equals(9, paciente.nivelDolor())
+	}
+	
+	test "Después de usar la bicicleta una vez, el nivel de dolor de Leonardo baja a 6, y la fortaleza sube a 23" {
+		bici.usar(paciente)
+		assert.equals(6, paciente.nivelDolor())
+		assert.equals(23, paciente.nivelFortaleza())
+	}
+	
+	test "Después de usar el minitramp una vez, la fortaleza de Leonardo sube a 24" {
+		minitramp.usar(paciente)
+		assert.equals(24, paciente.nivelFortaleza())
+		
+	}
+	
+	test "puede hacer la rutina que tiene asignada" {
+		assert.that(paciente.puedeHacerRutina())
+	}
+	
+	test "Después de hacerla una vez, su nivel de dolor baja a 1.8, y su fortaleza sube a 30" {
+		paciente.hacerRutina()
+		assert.equals(1.8, paciente.nivelDolor())
+		assert.equals(30, paciente.nivelFortaleza())
+	}
+	
+}
+
+describe "Milena" {
+	const rutina = new Rutina()
+	const paciente = new Paciente(
+		edad = 3,
+		nivelDolor = 30,
+		nivelFortaleza = 50,
+		rutina = rutina
+	)
+	
+	const magneto = new Magneto()
+	const bici = new Bicicleta()
+	const minitramp = new Minitramp() 
+	
+	method initialize() {
+		rutina.agregarAparato(magneto)
+		rutina.agregarAparato(bici)
+			
+	}
+
+	test "puede usar sólo el magneto" {
+		assert.that(magneto.puedeSerUsadoPor(paciente))
+		assert.notThat(bici.puedeSerUsadoPor(paciente))
+		assert.notThat(minitramp.puedeSerUsadoPor(paciente))
+	}
+	
+	test "Después de usar el magneto una vez, el nivel de dolor de Leonardo baja a 9" {
+		magneto.usar(paciente)
+		assert.equals(27, paciente.nivelDolor())
+	}
+	
+	test "Si intenta usar la bicicleta se genera un error" {
+		assert.throwsException({
+			bici.usar(paciente)		
+		}) 
+	}
+	
+	test "Si intenta usar el minitramp se genera un error" {
+		assert.throwsException({
+			minitramp.usar(paciente)		
+		}) 
+	}
+	
+	test "no puede hacer la rutina que tiene asignada" {
+		assert.notThat(paciente.puedeHacerRutina())
+	}
+	
+	
+}
+
+describe "Nicolas" {
+	const rutina = new Rutina()
+	const paciente = new Resistente(
+		edad = 40,
+		nivelDolor = 10,
+		nivelFortaleza = 20,
+		rutina = rutina
+	)
+	
+	const magneto = new Magneto()
+	const bici = new Bicicleta()
+	const minitramp = new Minitramp() 
+	
+	method initialize() {
+		rutina.agregarAparato(bici)
+		rutina.agregarAparato(minitramp)
+		rutina.agregarAparato(bici)
+		rutina.agregarAparato(magneto)
+		
+	}
+	
+	test "puede hacer la rutina que tiene asignada" {
+		assert.that(paciente.puedeHacerRutina())
+	}
+	
+	test "Después de hacerla una vez, su nivel de dolor baja a 1.8, y su fortaleza sube a 34." {
+		paciente.hacerRutina()
+		assert.equals(1.8, paciente.nivelDolor())
+		assert.equals(34, paciente.nivelFortaleza())
+	}
+	
+}
+
+describe "Victoria" {
+	const rutina = new Rutina()
+	const paciente = new Caprichoso(
+		edad = 30,
+		nivelDolor = 10,
+		nivelFortaleza = 40,
+		rutina = rutina
+	)
+	
+	const magneto = new Magneto()
+	const bici = new Bicicleta()
+	const minitramp = new Minitramp() 
+	
+	method initialize() {
+		rutina.agregarAparato(bici)
+		rutina.agregarAparato(minitramp)
+		rutina.agregarAparato(bici)
+		rutina.agregarAparato(magneto)
+		
+	}
+	
+	test "No puede hacer la rutina que tiene asignada" {
+		assert.notThat(paciente.puedeHacerRutina())
+	}
+	
+	
+}
+
+
+describe "Julian" {
+	const rutina = new Rutina()
+	const paciente = new Caprichoso(
+		edad = 20,
+		nivelDolor = 54,
+		nivelFortaleza = 50,
+		rutina = rutina
+	)
+	
+	const magneto = new Magneto(color="verde")
+	const biciRoja = new Bicicleta(color="rojo")
+	const biciBlanca = new Bicicleta() 
+	
+	method initialize() {
+		rutina.agregarAparato(biciRoja)
+		rutina.agregarAparato(magneto)
+		rutina.agregarAparato(biciBlanca)		
+	}
+	
+	test "puede hacer la rutina que tiene asignada" {
+		assert.that(paciente.puedeHacerRutina())
+	}
+	
+	test "Después de hacerla una vez, su nivel de dolor baja a 29.3, y su fortaleza sube a 62." {
+		paciente.hacerRutina()
+		assert.equals(29.3, paciente.nivelDolor())
+		assert.equals(62, paciente.nivelFortaleza())
+	}
+	
+	
+}
+
+describe "Zoe" {
+	const rutina = new Rutina()
+	const paciente = new RapidaRecuperacion(
+		edad = 50,
+		nivelDolor = 14,
+		nivelFortaleza = 40,
+		rutina = rutina
+	)
+	
+	const magneto = new Magneto()
+	const bici = new Bicicleta()
+	const minitramp = new Minitramp() 
+	
+	method initialize() {
+		rutina.agregarAparato(bici)
+		rutina.agregarAparato(minitramp)
+		rutina.agregarAparato(bici)
+		rutina.agregarAparato(magneto)
+		
+	}
+	
+	test "puede hacer la rutina que tiene asignada" {
+		assert.that(paciente.puedeHacerRutina())
+	}
+	
+	test "Después de asignar a 2 el valor de decremento de dolor para pacientes de rápida recuperación, y de que Zoe haga su rutinauna vez, su nivel de dolor baja a 3.4, y su fortaleza sube a 51." {
+		nivelRecuperacion.valor(2)
+		paciente.hacerRutina()
+		assert.equals(3.4, paciente.nivelDolor())
+		assert.equals(51, paciente.nivelFortaleza())
+	}
+	
+	
+}
+
+
